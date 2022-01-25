@@ -1,4 +1,4 @@
-# demo
+# GIT Commands
 demo to teach git
 
 
