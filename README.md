@@ -89,3 +89,18 @@ check which branch need to be merged
 if we are in master and if we want to merge the newbranch
 
 git merge newbranchname
+
+ *****************************************************************************************
+11. remote origin
+  
+  to know remote origin 
+  git remote
+  
+  to know remote origin url
+  git remote -v
+  
+  to remove the remote origin
+  git remote remove origin
+  
+  
+  
