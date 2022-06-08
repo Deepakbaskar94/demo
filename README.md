@@ -102,5 +102,20 @@ git merge newbranchname
   to remove the remote origin
   git remote remove origin
   
+***************************************************************************************** 
+  
+12.  For VS code configuration and push from device
+  
+git config -l --show-origin
+
+git config --global user.email "deepakbaskar@outlook.com"
+git config --global user.name "deepakbaskar94"
+
+git remote add frappe-test https://github.com/Deepakbaskar94/frappe-test
+
+git add .
+git commit -a -m "first commit of frappe"
+git push frappe-test   //frappe-test is repository name
+git push --set-upstream frappe-test master
   
   
