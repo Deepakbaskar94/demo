@@ -1,0 +1,22 @@
+mkdir test-repo && cd test-repo && git init
+echo test > test.txt
+git add test.txt && git commit -m "Initial version"
+
+# here's the interesting part:
+
+# make a local change and stash it:
+echo test2 > test.txt
+git stash
+
+# make a different local change:
+echo test3 > test.txt
+
+# try to apply the previous changes:
+git stash apply
+# git complains "Cannot apply to a dirty working tree, please stage your changes"
+
+# add "test3" changes to the index, then re-try the stash:
+git add test.txt
+git stash apply
+# git says: "Auto-merging test.txt"
+# git says: "CONFLICT (content): Merge conflict in test.txt"
