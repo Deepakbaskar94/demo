@@ -1,0 +1,264 @@
+Git Documentation		https://git-scm.com/docs
+Git Book 					https://git-scm.com/book/en/v2
+
+1. Configuring GIT with your name and email.
+		-To config:
+				git config --global user.name "deepak-probeplus"
+				git config --global user.email deepak@probeplus.in
+		
+		-To know the existing user:
+				git config user.name
+				git config user.email
+				
+2. To create a repository
+		- to create repository
+				git init 
+		
+		- To see the status of git
+				git status
+				
+3. to add files:
+		- to add single file
+				git add filename
+				
+		- to add multiple files
+				git add file1 file2 file3
+				
+		- to add everything
+				git add -A 			(or) 
+				git add --all		(or)
+				git add .
+				
+4. to commit or save point:
+		- to commit the changes
+				git commit -m "my message"
+				git commit -a -m "my message"
+				
+		- to commit multipleline message
+				git commit
+				
+ATOMIC COMMIT - commit small changes 
+
+5. to get log
+		-to get log
+				git log
+				git log --oneline
+				
+6. Amendig commit
+		- only can be done for last commit
+				git commit -m "wrong spelling mesage"
+				git add test.txt
+				git commit --amend
+				
+				
+7. Ignore files
+		- To ignore files 		( https://www.toptal.com/developers/gitignore )
+				add .gitignore file in the root directory
+				write filename (secrets.txt)
+				write folder_name_with_slash (node/)
+				to ignore one particular type (*.py)
+				
+8. Default Branch - Master -> Head is just a final pointer for that branch
+		- to see existing branches
+				git branch
+				
+		- to create a new branche
+				git branch branch-name 
+				
+		- to switch between branches
+				git switch branch-name
+				git switch -c branch-name
+				
+		- to delete a branch
+				git branch -d branch-name //after merging (you have to be in some other branch to delete the actual branch)
+				git branch -D branch-name 	//even without merging
+				
+		- to rename
+				git branch -m newbranchname 	//need to be in the branch which u need to rename
+				
+				
+				
+9. Without commiting if we are swiching then the changes made after last commit will be lost.
+		but new files wont have any issues
+
+10. Fast forward merge
+				master is at 0,1
+				second branch took place at 1 and made steps 2,3
+				still master head is in 1
+				switch to master
+					git merge second-branch
+				this is called fast forward merge (in this master is not updated anything seperately)
+				
+			Non fast forward merge but still merges
+				master 0,1
+				second branch took place at 1 and made steps 2,3
+				master created another new file and made a commit 4
+				switch to master
+					git merge second-branch
+				this is called non fast forward merge (without conflict it merges automatically)
+				
+			Conflict correction:
+				if the conflict comes structure will be 
+							one
+							two
+							<<<<<<< HEAD
+							three (3)
+							=======
+							three (30)
+							>>>>>>> fifth-branch
+							four
+							five added after creating third branch
+							six in second branch to check conflict
+							
+				delete which is not required or have both and make add and make a new commit
+	
+11. git diff
+			Saved in local but dont know what has been changed
+			
+							diff --git a/masterone.txt b/masterone.txt							//file name
+							index 28db12a..c01da80 100644										//id
+							--- a/masterone.txt															//which is minus identification
+							+++ b/masterone.txt														//which is plus identification
+							@@ -1,7 +1,7 @@														// (-) from line, no. of lines, (+) from line, no. of lines
+							-one																				// change in minus file
+							+one (10)																		// change in plus file
+							 two
+							 three (3)
+							 three (30)
+							-four																				// change in minus file
+							+four (40)																		// change in plus file
+							 five added after creating third branch
+							 six in second branch to check conflict
+							 
+			Unstaged:
+					git diff		(will show the changes which is not added)						//staged means git add command
+					
+			Both staged and unstaged:
+					git diff HEAD		(will show both staged and unstaged changes comparing to last commit)
+					
+			Only staged:
+					git diff --staged 		or  		git diff --cached										//will show only the added changes which means while giving commit what it is going to save as check point)
+			
+			To see staged things for particular file:
+					git diff --staged filename		
+					git diff HEAD style/main.css
+					
+			To see the difference between two different branches:
+					git diff branch1..branch2
+					
+			To see difference between two commits
+					git diff commit1-hash..commit2-hash										//get the commit hash using git log --oneline
+					
+					
+12. git stash
+			- To save without adding or commiting to swich to other branch
+					git stash
+					
+			- To restore saved thing in the existing branch and to clear the stash
+					git stash pop
+					
+			- To apply and to reapply in multiple branches
+					git stash apply
+					
+			- To save point go back work from start again save again go back and again save we can use multiple times
+					git stash
+					
+			- To list all stashed thing
+					git stash list
+					
+			//- To jump to a particular stash
+					git stash apply stash@{1}
+					
+			//- To drop stash	
+					git stash drop stash@{2}
+					
+			- To clear all stash
+					git stash clear
+					
+13. going back and checking the code
+			- To move the head to anyother previous commit	(visualize)
+					git checkout hash																		// go back and then create a new branch make some changes if required 
+					cat .git/HEAD
+					
+			- To reattach
+					git switch branch-name	or		git checkout branch-name		or 		git switch -
+			 
+			- To move head one step back		(visualize)
+					git checkout HEAD~1
+					
+			same- To restore last commit of a particular file	 (todo)
+					git checkout HEAD filename		or 		git checkout -- filename1 filename2
+			
+			same- To restore last commit same like previous one but this is a new command	(todo)
+					git restore filename
+			
+			- To  see a certail file before certain commit
+					git restore --source HEAD~1 app.js
+					
+			
+			- To unstage staged files.
+					git restore --staged filename
+					
+14. General reset
+			- General reset is to undo the commit but it wont remove the current content.		(so that we can undo commit and create a branch and commit the existing content to have both the things)
+					git reset hash
+					
+			- Hard reset changes also gone commit also gone
+					git reset --hard hash
+			
+15. Revert		
+			- revert works like reset --hard but it creates a new commit without deleting
+					git revert hash 
+					
+			
+
+								
+=====================================================================================================
+
+1. git hub cloning process
+
+		git clone url	
+		
+		git remote -v 
+		
+		- To link the below local code to a github repository
+				git remote add origin url
+				
+		- To push the code	
+				git push origin master 						// git push reponame	branch-name
+				
+		- To push from different local branch to different github branch
+				git push origin master:main					//git push <remote> <local_branch-name>:<remote_branch-name>
+				
+		- To remember the branch 
+						git push -u origin branch-name
+						git push -u origin local_branch-name:remote_branch-name
+				moving forward we can type only
+						git push
+		
+		- To rename master to main	
+				git branch -M main
+				
+		- To see where remote head is (last time communicated with github from local)
+				git branch -r 							// to see all branches in remote
+				
+				git checkout origin/main			//<remote>/<branch-name>		//To see where last we pulled
+				
+		- While we clone a project even though multiple branches are there it will show only default branch 	by git branch
+				git switch puppies				   //git switch remote-branch-name		// To switch to another branch in local which is available in remote.
+			
+
+2. Fetch and Pull			
+
+		- It fetches the latest code from github and it will keep in local repo like origin/branch-name
+				git fetch origin						// git fetch <remote>						// It also helps to get the latest data from github by not updating the directory
+				git fetch origin branch-name
+				
+		- It pulls the github to local woking directory
+				git pull origin master 				// git pull <remote> <branch-name>		// if conflict happend solve it like the way how we did in merge conflict
+				git pull 									//will have a tracking record of that branch
+				
+3. Other topics
+		- How to add someone as collaborator.
+		- How to make public and private and its difference.
+		- How to write a readme file.	e.g. https://github.com/explosion/spaCy			reference:	https://markdown-it.github.io/
